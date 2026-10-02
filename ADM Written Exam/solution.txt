@@ -1,0 +1,102 @@
+Q1:
+E= Customer
+LS=
+LP=[Customer_!]
+
+Q2:
+E=Loan
+LP=[Customer(Name)_B]
+LS=[Loan(amount)_!, Branch(city)_LB]
+
+Q3:
+E=Branch
+LP=[Loan_LB]
+LS=[Branch(city)_!]
+
+
+Customer:{
+id,
+name,
+street,
+city
+}
+
+Loan:{
+loan_no,
+amount,
+branch: {city},
+borrower: {name,street},
+}
+
+branch:{
+branch_city,
+loans:[loan:{amount}]
+}
+
+
+
+Create table customer(
+id int PK,
+name text,
+street text,
+city text
+);
+
+
+create type customer_t(customer_id, name);
+
+create type branch_city_t(city);
+
+Create table Loan(
+loan_no int,
+amount,
+branch_city frozen<branch_city_t>,
+borrower frozen<customer_t>,
+primary key((branch_city), amount )
+);
+
+
+1.
+MATCH (f:Flight)-[:ORIGIN]->(origin:Airport)-[:IN_CITY]->(o_city:City)-[:IN_STATE]->(o_state:State)-[:IN_COUNTRY]->(o_country:Country)
+WHERE o_country.name = "Pakistan" 
+RETURN AVG(d.arr_delay)
+
+Find the average departed delay time of all the flights that departed from Pakistan
+
+
+2.
+MATCH (f:Flight)-[:CANCELLED_BY]→(r:Reason)
+WHERE r.code = 1
+RETURN COUNT(f)
+
+Find the no of flights for the reason code 1
+type: property
+
+3.
+(:Crew {name})
+(:Crew)-[:Role{name}]->(:Flight)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,25 @@
+db.Client.aggregate([
+  {
+    $lookup: {
+      from: "Building",
+      localField: "buildings",
+      foreignField: "BID",
+      as: "client_buildings"
+    }
+  },
+  {
+    $project: {
+      client_name: 1,
+      "client_buildings.building_type": 1,
+      "client_buildings.city_name": 1
+    }
+  }
+])
+
+
+:Pierre :Knows _:p
+_:p :name "abdul aleem"
+_:p :wrote _:b
+_:b :title "intro to C#"
+
+
